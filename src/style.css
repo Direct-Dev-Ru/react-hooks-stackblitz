@@ -7,7 +7,6 @@ body,
 html {
   width: 100%;
   height: 100%;
-  overflow: hidden;
 }
 
 h1,
@@ -18,8 +17,7 @@ p {
 
 input,
 span {
-  min-width: 90%;
-  margin: 10px;
+  width: 100%;
 }
 
 .App.root {

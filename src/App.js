@@ -49,32 +49,28 @@ export default function App() {
 
   return (
     <div className={`App ${theme} App root`}>
-      <h1>Using custom hooks ...</h1>
-      <div>
+      <h1>Test React frontend</h1>
+      <div className="d-flex flex-row m-2">
         <button
-          className="btn btn-secondary btn-lg m-2"
-          style={{ width: '40%' }}
+          className="btn btn-secondary btn-lg flex-fill"
+          // style={{ width: '40%' }}
           type="button"
           onClick={toggleTheme}
         >
           Toggle Theme
         </button>
-
-        <button
-          className="btn btn-primary btn-lg m-2"
-          style={{ width: '40%' }}
-          type="button"
-          onClick={getData}
-        >
-          Get it!
-        </button>
       </div>
       <form>
-        <div>
-          <span> Enter https url: </span>
-          <input id="url1" {...urlField1} />
+        <div className="d-flex flex-column">
+          <div className="flex-fill m-2">
+            <span> Enter https url: </span>
+          </div>
+          <div className="flex-fill m-2">
+            <input id="url1" {...urlField1} />
+          </div>
+
           {urlField1.error && (
-            <div>
+            <div className="flex-fill m-2">
               <span style={{ color: 'red' }}>
                 <small>{urlField1.error}</small>
               </span>
@@ -82,11 +78,16 @@ export default function App() {
           )}
         </div>
 
-        <div>
-          <span> Enter http url: </span>
-          <input id="url2" {...urlField2} />
+        <div className="d-flex flex-column">
+          <div className="flex-fill m-2">
+            <span> Enter http url: </span>
+          </div>
+          <div className="flex-fill m-2">
+            <input id="url1" {...urlField2} />
+          </div>
+
           {urlField2.error && (
-            <div>
+            <div className="flex-fill m-2">
               <span style={{ color: 'red' }}>
                 <small>{urlField2.error}</small>
               </span>
@@ -94,6 +95,16 @@ export default function App() {
           )}
         </div>
       </form>
+      <div className="d-flex flex-row m-5">
+        <button
+          className="btn btn-primary btn-lg flex-fill"
+          // style={{ width: '40%' }}
+          type="button"
+          onClick={getData}
+        >
+          Get it!
+        </button>
+      </div>
       <ViewItemList viewitems={data} theme={theme} />
     </div>
   );

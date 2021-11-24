@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ViewItemList } from './components/ViewItemList';
 import './style.css';
 import useInput from './hooks/useInput';
@@ -34,6 +34,29 @@ export default function App() {
   const { loading, data, error, fetchIt } = useFetch();
 
   const { theme, toggleTheme } = useTheme();
+
+  useEffect(() => {
+    //create a controller
+    let controller = new AbortController();
+    (async () => {
+      try {
+        // const response = await fetch(urlField1.value || urlField2.data, {
+        //   // connect the controller with the fetch request
+        //   signal: controller.signal,
+        // });
+        // console.log(await response.json());
+
+        await fetchIt(urlField1.value || urlField2.data, {
+          // connect the controller with the fetch request
+          signal: controller.signal,
+        });
+      } catch (e) {
+        // Handle the error
+      }
+    })();
+    //aborts the request when the component umounts
+    return () => controller?.abort();
+  }, []);
 
   if (loading) {
     return <h1>Loading ...</h1>;

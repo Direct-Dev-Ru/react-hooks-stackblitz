@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useReducer } from 'react';
 const { log: logga } = console;
 const useFetch = (url, option) => {
   // const [state, setState] = useState({
@@ -38,7 +38,7 @@ const useFetch = (url, option) => {
   logga(status);
 
   // fetch from api
-  function fetchIt(_url = url, _option = option) {
+  async function fetchIt(_url = url, _option = option) {
     // setState({ loading: true });
     dispatch({ type: 'toggleLoading' });
 

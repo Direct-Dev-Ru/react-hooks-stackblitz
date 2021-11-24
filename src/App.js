@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ViewItemList } from './components/ViewItemList';
 import './style.css';
 import useInput from './hooks/useInput';
@@ -18,6 +18,8 @@ const superValidator = (type, errorMessage) => {
 };
 
 export default function App() {
+  const [fetch, setFetch] = useState(false);
+
   const urlField1 = useInput({
     initial:
       'https://my-json-server.typicode.com/Direct-Dev-Ru/simpledb/articles',
@@ -56,7 +58,7 @@ export default function App() {
     })();
     //aborts the request when the component umounts
     return () => controller?.abort();
-  }, []);
+  }, [fetch]);
 
   if (loading) {
     return <h1>Loading ...</h1>;
@@ -67,7 +69,8 @@ export default function App() {
   }
 
   const getData = () => {
-    fetchIt(urlField1.value || urlField2.data);
+    setFetch((prev) => !prev);
+    // fetchIt(urlField1.value || urlField2.data);
   };
 
   return (

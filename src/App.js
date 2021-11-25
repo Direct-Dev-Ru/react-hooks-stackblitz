@@ -33,32 +33,32 @@ export default function App() {
     validator: superValidator('httpOnlyUrl', 'Enter url starts with http://'),
   });
 
-  const { loading, data, error, fetchIt } = useFetch();
+  const { loading, data, error, fetchIt, toggleFetch } = useFetch();
 
   const { theme, toggleTheme } = useTheme();
 
-  useEffect(() => {
-    //create a controller
-    let controller = new AbortController();
-    (async () => {
-      try {
-        // const response = await fetch(urlField1.value || urlField2.data, {
-        //   // connect the controller with the fetch request
-        //   signal: controller.signal,
-        // });
-        // console.log(await response.json());
+  // useEffect(() => {
+  //   //create a controller
+  //   let controller = new AbortController();
+  //   (async () => {
+  //     try {
+  //       // const response = await fetch(urlField1.value || urlField2.data, {
+  //       //   // connect the controller with the fetch request
+  //       //   signal: controller.signal,
+  //       // });
+  //       // console.log(await response.json());
 
-        await fetchIt(urlField1.value || urlField2.data, {
-          // connect the controller with the fetch request
-          signal: controller.signal,
-        });
-      } catch (e) {
-        // Handle the error
-      }
-    })();
-    //aborts the request when the component umounts
-    return () => controller?.abort();
-  }, [fetch]);
+  //       await fetchIt(urlField1.value || urlField2.data, {
+  //         // connect the controller with the fetch request
+  //         signal: controller.signal,
+  //       });
+  //     } catch (e) {
+  //       // Handle the error
+  //     }
+  //   })();
+  //   //aborts the request when the component umounts
+  //   return () => controller?.abort();
+  // }, [fetch]);
 
   if (loading) {
     return <h1>Loading ...</h1>;
@@ -69,8 +69,9 @@ export default function App() {
   }
 
   const getData = () => {
-    setFetch((prev) => !prev);
+    // setFetch((prev) => !prev);
     // fetchIt(urlField1.value || urlField2.data);
+    toggleFetch();
   };
 
   return (

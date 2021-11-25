@@ -1,5 +1,6 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 const { log: logga } = console;
+
 const useFetch = (url, option) => {
   // const [state, setState] = useState({
   //   loading: false,
@@ -22,6 +23,8 @@ const useFetch = (url, option) => {
         return { ...state, data: action.payload };
       case 'setMany':
         return { ...state, ...action.payload };
+      case 'toggleFetch':
+        return { ...state, fetchToggle: !state.fetchToggle };
       case 'reset':
         return init(action.payload);
       default:
@@ -31,11 +34,15 @@ const useFetch = (url, option) => {
 
   const [status = state, dispatch] = useReducer(
     stateReducer,
-    { loading: false, data: null, error: null },
+    { loading: false, data: null, error: null, fetchToggle: false },
     init
   );
 
   logga(status);
+
+  function toggleFetch() {
+    dispatch({ type: 'toggleFetch', payload: {} });
+  }
 
   // fetch from api
   async function fetchIt(_url = url, _option = option) {
@@ -55,7 +62,28 @@ const useFetch = (url, option) => {
       });
   }
 
-  return { ...status, fetchIt };
+  useEffect(() => {
+    //create a controller
+    let controller = new AbortController();
+    (async (_url) => {
+      try {
+        console.log(_url);
+        if (_url) {
+          await fetchIt(_url, {
+            // connect the controller with the fetch request
+            signal: controller.signal,
+          });
+        }
+      } catch (e) {
+        // Handle the error
+        logga(e);
+      }
+    })(url);
+    //aborts the request when the component umounts
+    return () => controller?.abort();
+  }, [status.fetchToggle]);
+
+  return { ...status, fetchIt, toggleFetch };
 };
 
 export default useFetch;

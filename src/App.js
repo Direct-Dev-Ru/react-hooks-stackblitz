@@ -33,7 +33,9 @@ export default function App() {
     validator: superValidator('httpOnlyUrl', 'Enter url starts with http://'),
   });
 
-  const { loading, data, error, fetchIt, toggleFetch } = useFetch();
+  const { loading, data, error, setUrl, toggleFetch } = useFetch(
+    urlField1.value || urlField2.data
+  );
 
   const { theme, toggleTheme } = useTheme();
 
@@ -65,12 +67,13 @@ export default function App() {
   }
 
   if (error) {
-    return <h3>{JSON.stringify(error, null, 2)}</h3>;
+    return <h3>Error occurs : {error.toString()}</h3>;
   }
 
   const getData = () => {
     // setFetch((prev) => !prev);
     // fetchIt(urlField1.value || urlField2.data);
+    setUrl(urlField1.value || urlField2.data);
     toggleFetch();
   };
 

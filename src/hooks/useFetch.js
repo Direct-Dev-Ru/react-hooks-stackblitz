@@ -10,7 +10,13 @@ const useFetch = (url, option) => {
 
   // Reducer
   const init = (initState) => {
-    return { loading: false, data: null, error: null, ...initState };
+    return {
+      loading: false,
+      urlToFetch: url,
+      data: null,
+      error: null,
+      ...initState,
+    };
   };
 
   const stateReducer = (state, action) => {
@@ -34,18 +40,27 @@ const useFetch = (url, option) => {
 
   const [status = state, dispatch] = useReducer(
     stateReducer,
-    { loading: false, data: null, error: null, fetchToggle: false },
+    {
+      loading: false,
+      urlToFetch: url,
+      data: null,
+      error: null,
+      fetchToggle: false,
+    },
     init
   );
 
   logga(status);
-
   function toggleFetch() {
     dispatch({ type: 'toggleFetch', payload: {} });
   }
 
+  function setUrl(urlToSet) {
+    dispatch({ type: 'setMany', payload: { urlToFetch: urlToSet } });
+  }
+
   // fetch from api
-  async function fetchIt(_url = url, _option = option) {
+  async function fetchIt(_url = status.urlToFetch, _option = option) {
     // setState({ loading: true });
     dispatch({ type: 'toggleLoading' });
 
@@ -78,12 +93,12 @@ const useFetch = (url, option) => {
         // Handle the error
         logga(e);
       }
-    })(url);
+    })(status.urlToFetch);
     //aborts the request when the component umounts
     return () => controller?.abort();
   }, [status.fetchToggle]);
 
-  return { ...status, fetchIt, toggleFetch };
+  return { ...status, fetchIt, toggleFetch, setUrl };
 };
 
 export default useFetch;

@@ -2,11 +2,6 @@ import React, { useReducer, useEffect } from 'react';
 const { log: logga } = console;
 
 const useFetch = (url, option) => {
-  // const [state, setState] = useState({
-  //   loading: false,
-  //   data: null,
-  //   error: null,
-  // });
 
   // Reducer
   const init = (initState) => {

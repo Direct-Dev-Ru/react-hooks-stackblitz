@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 
 const useTheme = () => {
@@ -26,3 +27,4 @@ const useTheme = () => {
 };
 
 export default useTheme;
+

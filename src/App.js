@@ -1,36 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import { ViewItemList } from './components/ViewItemList';
-import './style.css';
-import useInput from './hooks/useInput';
-import useFetch from './hooks/useFetch';
-import useTheme from './hooks/useTheme';
+import React from "react";
+import { ViewItemList } from "./components/ViewItemList";
+import "./style.css";
+import useInput from "./hooks/useInput";
+import useFetch from "./hooks/useFetch";
+import useTheme from "./hooks/useTheme";
 
 const superValidator = (type, errorMessage) => {
   const selector = {
     httpsOnlyUrl: (v) => {
-      return v.startsWith('https://') ? null : errorMessage;
+      return v.startsWith("https://") ? null : errorMessage;
     },
     httpOnlyUrl: (v) => {
-      return v.startsWith('http://') ? null : errorMessage;
-    },
+      return v.startsWith("http://") ? null : errorMessage;
+    }
   };
   return selector[type];
 };
 
 export default function App() {
-  const [fetch, setFetch] = useState(false);
-
   const urlField1 = useInput({
     initial:
-      'https://my-json-server.typicode.com/Direct-Dev-Ru/simpledb/articles',
+      "https://my-json-server.typicode.com/Direct-Dev-Ru/simpledb/articles",
     required: false,
-    validator: superValidator('httpsOnlyUrl', 'Enter url starts with https://'),
+    validator: superValidator("httpsOnlyUrl", "Enter url starts with https://")
   });
 
   const urlField2 = useInput({
-    initial: 'http://',
+    initial: "http://",
     required: false,
-    validator: superValidator('httpOnlyUrl', 'Enter url starts with http://'),
+    validator: superValidator("httpOnlyUrl", "Enter url starts with http://")
   });
 
   const { loading, data, error, setUrl, toggleFetch } = useFetch(
@@ -38,36 +36,12 @@ export default function App() {
   );
 
   const { theme, toggleTheme } = useTheme();
-
-  // useEffect(() => {
-  //   //create a controller
-  //   let controller = new AbortController();
-  //   (async () => {
-  //     try {
-  //       // const response = await fetch(urlField1.value || urlField2.data, {
-  //       //   // connect the controller with the fetch request
-  //       //   signal: controller.signal,
-  //       // });
-  //       // console.log(await response.json());
-
-  //       await fetchIt(urlField1.value || urlField2.data, {
-  //         // connect the controller with the fetch request
-  //         signal: controller.signal,
-  //       });
-  //     } catch (e) {
-  //       // Handle the error
-  //     }
-  //   })();
-  //   //aborts the request when the component umounts
-  //   return () => controller?.abort();
-  // }, [fetch]);
+  if (error) {
+    return <h3>Error occurs : {error.toString()}</h3>;
+  }
 
   if (loading) {
     return <h1>Loading ...</h1>;
-  }
-
-  if (error) {
-    return <h3>Error occurs : {error.toString()}</h3>;
   }
 
   const getData = () => {
@@ -101,7 +75,7 @@ export default function App() {
 
           {urlField1.error && (
             <div className="flex-fill m-2">
-              <span style={{ color: 'red' }}>
+              <span style={{ color: "red" }}>
                 <small>{urlField1.error}</small>
               </span>
             </div>
@@ -118,7 +92,7 @@ export default function App() {
 
           {urlField2.error && (
             <div className="flex-fill m-2">
-              <span style={{ color: 'red' }}>
+              <span style={{ color: "red" }}>
                 <small>{urlField2.error}</small>
               </span>
             </div>
